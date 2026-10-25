@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>SnapScore AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="w">
+<header>
+<div class="logo" data-go="home"><i></i>SnapScore AI</div>
+<nav id="nav"><a data-go="home">Home</a><a data-go="proj">My Projects</a><a data-go="settings">Settings</a><a data-go="about">About us</a><a data-go="sub">Subscription</a></nav>
+<div id="acct"></div>
+</header>
+<main>
+<section id="v-home">
+<div class="hero">
+<div>
+<h1>Snap it.<br>Score it.<br>Sell it.</h1>
+<p class="lead">Drop a product photo. Get a grade and your fastest fixes.</p>
+<div class="jr"><span>1 Upload</span><span>2 Analyze</span><span>3 Improve</span><span>4 Prepare to sell</span></div>
+<div id="meter"></div>
+<div id="chal"></div>
+<div class="row" style="margin-top:18px"><button class="btn blue" id="pick">Upload photo</button><button class="btn alt" id="cam">📷 Take Photo Now</button><input id="camf" type="file" accept="image/*" capture="environment" hidden><button class="btn alt" id="smp">Random sample</button></div>
+<div class="gal"><span>No photo? Try a sample, no account needed:</span><button data-s="dark">Dark</button><button data-s="mess">Cluttered</button><button data-s="good">Well-lit</button></div>
+<div class="er" id="msg" role="alert"></div>
+</div>
+<div class="drop" id="drop" tabindex="0" role="button" aria-label="Upload a product photo"><canvas id="cv" width="320" height="240"></canvas><canvas id="gv" width="320" height="240" style="pointer-events:none"></canvas><div id="ph"><b>Drop a photo</b><span>or tap to browse</span></div></div>
+</div>
+<input id="file" type="file" accept="image/*" hidden>
+<div class="res" id="res" hidden aria-live="polite">
+<div>
+<div class="ringw"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" stroke="#eef0f3"/><circle id="rg" cx="60" cy="60" r="52" stroke-dasharray="0 327"/></svg><div><span id="ov">0</span></div></div>
+<div class="grade" id="gr"></div><div class="dl" id="dl"></div>
+<div class="feed"><canvas id="fp" width="72" height="54"></canvas>how it looks in a feed</div>
+</div>
+<div>
+<div class="chips" id="chips"></div>
+<div class="mt" id="mt"></div>
+<div class="wins" id="wins"></div>
+<div class="row" style="margin-top:16px"><button class="btn fixbig" id="fmp">✨ Fix My Photo</button><button class="btn alt" id="spb">📦 Create Selling Pack</button><button class="btn alt" id="svp">💾 Save to Project</button><button class="btn alt" id="gmb">✨ AI Insights (Gemini)</button><button class="btn alt" id="gbtn">Show guides</button><button class="btn alt" id="scb">Download score card</button></div>
+</div>
+</div>
+<div class="fres" id="gem" hidden aria-live="polite"></div>
+<div class="gd" id="gd" hidden></div>
+<div class="tools" id="tools" hidden>
+<div><h2 style="font-size:28px">Fix studio</h2>
+<div class="fres" id="fres" hidden aria-live="polite"></div>
+<div class="ba" id="ba"><canvas id="ac" width="320" height="240"></canvas><canvas id="bc" width="320" height="240"></canvas><i id="bl"></i><span style="left:8px">Before</span><span style="right:8px">After</span></div>
+<p id="af" style="font-weight:600;margin:12px 0"></p><div class="fixc">
+<label class="ck"><input type="checkbox" id="xa" checked> Auto levels</label><span></span>
+<label>Brightness<input type="range" id="xb" min="-50" max="50" value="0"></label>
+<label>Contrast<input type="range" id="xc" min="-50" max="50" value="0"></label>
+<label>Warmth<input type="range" id="xw" min="-30" max="30" value="0"></label>
+<label>Saturation<input type="range" id="xs" min="-50" max="50" value="0"></label>
+<label>Crop<select id="xr"><option value="orig">Original</option><option value="sq">Square 1:1</option><option value="p45">Portrait 4:5</option><option value="prod">Around product</option></select></label>
+<label>Zoom<input type="range" id="xz" min="100" max="160" value="100"></label>
+</div>
+<p class="sub2">Adjusts light, color and framing only. It cannot repair blur or remove objects. Your original is never changed.</p>
+<div class="row"><button class="btn alt" id="xx">Reset</button><button class="btn blue" id="svv">Save as New Version</button><button class="btn alt" id="dlb">Download edited photo</button></div></div>
+<div><h2 style="font-size:28px">Prepare to sell</h2>
+<div class="chips" id="tg"></div>
+<div class="spec"><label>Min longest side (px)<input type="number" id="tmin" min="100" step="50"></label><label>Max file size (MB)<input type="number" id="tmb" min="0.1" step="0.5"></label><label>Shape<select id="tar"><option value="any">Any</option><option value="1">Square 1:1</option><option value="0.8">Portrait 4:5</option><option value="1.333">Landscape 4:3</option></select></label><label class="ck"><input type="checkbox" id="twh"> White backdrop</label></div>
+<p class="sub2">Starting points, not official rules. Edit them to match your platform's current requirements.</p>
+<div class="chk" id="chk"></div><canvas id="pvw" aria-label="Layout preview"></canvas></div>
+</div>
+<div class="pack" id="pack" hidden>
+<h2 style="font-size:28px">Selling Pack</h2>
+<p class="sub2">Creates separate resized copies from your edited photo. Sizes are customizable defaults, not official platform rules, so check your platform's current requirements. Your original file is never changed.</p>
+<div class="chips" id="pkd"></div>
+<div id="pkc"></div>
+<div class="row"><button class="btn blue" id="pkg">📦 Create Selling Pack</button><button class="btn alt" id="pkz" hidden>Download all (ZIP)</button></div>
+<p class="sub2" id="pkm" role="status"></p>
+<div class="lg" id="pkr"></div>
+</div>
+<div class="hist" id="hist"></div>
+<div class="stats" id="stats"></div>
+<div class="bd" id="bd"></div>
+<h2 class="toolh">Studio tools</h2>
+<div class="chips" id="tabs"><button data-t="l" class="on">Store Lab</button><button data-t="r">Photo Director</button><button data-t="d">Photo Duel</button><button data-t="s">Shot list</button></div>
+<div class="play" id="play" data-on="l">
+<div class="pcard" data-t="l"><h3>Store Consistency Lab</h3><p>Upload 3 to 10 photos and see which ones do not match the rest of your shop. Costs 1 snap.</p>
+<button class="btn blue" id="lbp">Choose photos</button><input id="lbf" type="file" accept="image/*" multiple hidden>
+<div id="lbr" aria-live="polite"></div></div>
+<div class="pcard" data-t="r"><h3>Photo Director</h3><p>Answer a few questions and get a setup plan with a diagram.</p>
+<div class="spec"><label>Product<select id="qc"><option>Food</option><option>Fashion</option><option>Beauty</option><option>Handmade</option><option>Other</option></select></label><label>Light you have<select id="ql"><option value="day">Daylight window</option><option value="room">Room lights only</option><option value="dark">Very dim</option></select></label><label>Budget<select id="qb"><option value="0">Free</option><option value="1">Under $10</option><option value="2">$10 to $50</option></select></label></div>
+<div class="eq" id="qe"><label><input type="checkbox" name="eq" value="window"> Window</label><label><input type="checkbox" name="eq" value="phone" checked> Phone</label><label><input type="checkbox" name="eq" value="desk lamp"> Desk lamp</label><label><input type="checkbox" name="eq" value="white paper"> White paper</label><label><input type="checkbox" name="eq" value="cardboard"> Cardboard</label><label><input type="checkbox" name="eq" value="tripod"> Tripod</label></div>
+<button class="btn blue" id="qgo">Plan my shoot</button><div id="qp" aria-live="polite"></div></div>
+<div class="pcard" data-t="d"><h3>Photo Duel</h3><p>Two photos, one winner. Costs 1 snap.</p>
+<div class="duo"><button class="slot" id="s1">Photo A</button><button class="slot" id="s2">Photo B</button></div>
+<input id="f1" type="file" accept="image/*" hidden><input id="f2" type="file" accept="image/*" hidden>
+<button class="btn blue" id="dgo">Start duel</button><div id="dres" aria-live="polite"></div></div>
+<div class="pcard" data-t="s"><h3>Shot list</h3><p id="slp"></p><div class="sls" id="shots"></div></div>
+</div>
+</section>
+
+<section id="v-proj" hidden>
+<h2>My Projects</h2>
+<p class="sub2" id="pjn">Projects are saved in this browser only. They do not sync across devices, and clearing browser data deletes them.</p>
+<div id="pjmain">
+<div class="row"><input class="fld" id="pjq" placeholder="Search projects" aria-label="Search projects" style="max-width:260px;margin:0"><select class="fld" id="pjs" aria-label="Sort projects" style="max-width:200px;margin:0"><option value="mod">Recently edited</option><option value="new">Newest</option><option value="best">Best score</option></select><button class="btn blue" id="pjnew">New project</button></div>
+<div class="lg" id="pjg"></div>
+</div>
+<div id="pjd" hidden></div>
+<div id="srv" hidden><h3 style="margin-top:28px">Saved to your account</h3><p class="sub2">Scores and recommendations saved in the account database. The photos themselves stay in the browser where you saved them.</p><div class="lg" id="srvl"></div></div>
+</section>
+
+<section id="v-settings" hidden>
+<h2>Settings</h2>
+<div id="setbox"></div>
+</section>
+
+<section id="v-about" hidden>
+<h2>Two people, one sharp eye.</h2>
+<p class="lead">We built SnapScore AI so any seller can shoot like a pro.</p>
+<div class="people">
+<div class="pp"><div class="av" style="background:#3b3bff">T</div><b>Tang Kheang</b></div>
+<div class="pp"><div class="av" style="background:#f04438">P</div><b>Tith Praser Vatanak</b></div>
+</div>
+</section>
+
+<section id="v-sub" hidden>
+<h2>Pick your pace.</h2>
+<div class="cards">
+<div class="pc"><h3>Free</h3><div class="big">3</div><p>snaps per day</p><p>Full score and fixes</p><button class="btn alt" id="bf"></button></div>
+<div class="pc pro"><h3>Premium</h3><div class="big">&infin;</div><p>unlimited snaps</p><p>Full score and fixes</p><button class="btn" id="bp"></button></div>
+</div>
+<p style="color:var(--mut);font-size:14px;margin-top:14px">Demo plan switch. No real payment.</p>
+</section>
+</main>
+<footer>SnapScore AI. Upload. Analyze. Improve. Photos stay on your device. Scores come from simple image measurements, not a trained AI model.</footer>
+</div>
+
+<div class="mod" id="mod" hidden><div class="card">
+<button class="x" id="mx" aria-label="Close">&times;</button>
+<div class="tabs"><button id="tl" class="on">Log in</button><button id="ts">Sign up</button></div>
+<input class="fld" id="fn" placeholder="Your name" autocomplete="name" hidden>
+<input class="fld" id="fe" type="email" placeholder="Email" autocomplete="email">
+<input class="fld" id="fp2" type="password" placeholder="Password (8+ characters)" autocomplete="current-password">
+<div class="er" id="er"></div>
+<p class="sub2">Your account is stored on the SnapScore server and your password is hashed. Photos stay in this browser.</p>
+<button class="btn blue" id="go" style="width:100%">Log in</button>
+</div></div>
+<div class="toast" id="toast" role="status" hidden></div>
+<div class="mod" id="dlg" hidden><div class="card" role="dialog" aria-modal="true" aria-labelledby="dt"><button class="x" id="dx" aria-label="Close">&times;</button><h2 id="dt" style="font-size:26px"></h2><p id="dm" class="sub2"></p><select class="fld" id="ds" aria-label="Choose project" hidden></select><input class="fld" id="di" maxlength="40" aria-label="Name" hidden><div class="er" id="de"></div><div class="row"><button class="btn blue" id="dok">OK</button><button class="btn alt" id="dno">Cancel</button></div></div></div>
+<div class="mod" id="lim" hidden><div class="card" style="text-align:center">
+<button class="x" id="lx" aria-label="Close">&times;</button>
+<h2>3 of 3 snaps used</h2><p style="color:var(--mut)">Come back tomorrow, or go Premium for unlimited.</p>
+<button class="btn blue" id="lp">See Premium</button>
+</div></div>
+
+<script src="/app.js"></script>
+</body>
+</html>
